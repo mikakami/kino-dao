@@ -1,0 +1,130 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ws.softlabs.lib</groupId>
+  <artifactId>kino-dao</artifactId>
+  <version>0.0.3</version>
+  <packaging>jar</packaging>
+
+  <name>kino-dao</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>    
+  </properties>
+
+  <dependencies>
+    <dependency>
+    	<groupId>junit</groupId>
+    	<artifactId>junit</artifactId>
+    	<version>4.8.2</version>
+    	<scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>ws.softlabs.lib</groupId>
+    	<artifactId>util</artifactId>
+    	<version>0.0.3</version>
+  		<scope>compile</scope>
+    </dependency>
+    <dependency>
+    	<groupId>ws.softlabs.lib</groupId>
+    	<artifactId>kino-model</artifactId>
+    	<version>0.0.3</version>
+  		<scope>compile</scope>
+    </dependency>    
+    <dependency>
+    	<groupId>log4j</groupId>
+    	<artifactId>log4j</artifactId>
+    	<version>1.2.16</version>
+  		<scope>compile</scope>
+    </dependency>
+    <dependency>
+    	<groupId>com.google.appengine</groupId>
+    	<artifactId>appengine-api-1.0-sdk</artifactId>
+    	<version>1.4.3</version>
+    	<type>jar</type>
+  		<scope>compile</scope>
+    </dependency>
+    <dependency>
+    	<groupId>javax.jdo</groupId>
+    	<artifactId>jdo2-api</artifactId>
+    	<version>2.3-eb</version>
+    	<type>jar</type>
+  		<scope>compile</scope>
+    </dependency>
+    <dependency>
+    	<groupId>joda-time</groupId>
+    	<artifactId>joda-time</artifactId>
+    	<version>1.6.2</version>
+    	<type>jar</type>
+  		<scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-source-plugin</artifactId>
+			<version>2.1.2</version>
+			<executions>
+				<execution>
+					<id>attach-sources</id>
+					<goals>
+						<goal>jar</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+		<plugin>
+			<groupId>org.datanucleus</groupId>
+			<artifactId>maven-datanucleus-plugin</artifactId>
+			<version>2.2.1</version>
+			<configuration>
+			<!--  
+				<log4jConfiguration>${basedir}/log4j.properties</log4jConfiguration>
+			-->
+				<verbose>true</verbose>
+				<props>${basedir}/datanucleus.properties</props>
+			</configuration>
+			<executions>
+				<execution>
+					<phase>process-classes</phase>
+					<goals>
+						<goal>enhance</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>      
+    </plugins>
+  </build>
+
+    <repositories>
+        <repository>
+            <id>DataNucleus_Repos2</id>
+            <name>DataNucleus Repository</name>
+            <url>http://www.datanucleus.org/downloads/maven2</url>
+        </repository>
+        
+        <!-- Required for transaction-api transitive dep -->
+<!--  
+        <repository> 
+            <id>Java_Net_LEGACY</id>
+            <name>Java.Net legacy</name>
+            <url>http://download.java.net/maven/1/</url>
+            <layout>legacy</layout>
+        </repository>
+-->
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>DataNucleus_2</id>
+            <url>http://www.datanucleus.org/downloads/maven2/</url>
+        </pluginRepository>
+    </pluginRepositories>
+    
+    
+</project>
