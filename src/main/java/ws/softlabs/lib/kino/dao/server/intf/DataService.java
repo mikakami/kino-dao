@@ -24,4 +24,14 @@ public interface DataService {
 
 	/*  tools  */
 	public void				clearDatabase();
+	public void				clearTheaters();
+	public void				clearHalls();
+	public void				clearShows();
+	public void				clearMovies();
+	public List<String>		getRawTheaterList();
+	public List<String>		getRawHallList();
+	public List<String>		getRawDayList();
+	public List<String>		getRawMovieList();
+	public List<String>		getRawShowList();
+
 }

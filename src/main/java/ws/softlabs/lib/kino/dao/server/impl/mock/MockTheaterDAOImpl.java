@@ -57,5 +57,10 @@ public class MockTheaterDAOImpl implements TheaterDAO {
 		Object[] list = theaters.toArray();
 		return ( theaters.remove(CollectionUtils.getIndexOf(list, (Object)theater)) != null );
 	}
+	@Override
+	public List<String> getRawList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

@@ -2,6 +2,7 @@ package ws.softlabs.lib.kino.dao.server.model.pmf;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -15,6 +16,7 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class PTheater {
 
+	@NotPersistent
 	private static final Logger log = 
 		Logger.getLogger("kino.pmfdao.model." + PTheater.class.getSimpleName());
 
@@ -64,6 +66,7 @@ public class PTheater {
 		return new Theater(this.key.getId(), this.getName(), this.getUrl());
 	}
 	public String toString() {
-		return this.getName() + "(" + this.getKey().toString() + ")";
+		//return this.getName() + "(" + this.getKey().toString() + ")";
+		return this.getKey() + ": " + this.getName() + " (" + this.getUrl() + ")";
 	}
 }

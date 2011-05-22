@@ -2,6 +2,7 @@ package ws.softlabs.lib.kino.dao.server.model.pmf;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -18,6 +19,7 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class PHall implements StoreCallback {
 
+	@NotPersistent
 	private static final Logger log = 
 		Logger.getLogger("kino.pmfdao.model." + PHall.class.getSimpleName());
 	

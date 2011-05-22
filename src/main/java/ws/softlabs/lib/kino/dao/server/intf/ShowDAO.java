@@ -16,4 +16,7 @@ public interface ShowDAO {
 	boolean update(Show show);	
 	boolean remove(Show show);
 	Long getNextId();
+	
+	List<String> getRawList();
+	List<String> getRawDayList();
 }

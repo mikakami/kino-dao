@@ -1,8 +1,11 @@
 package ws.softlabs.lib.kino.dao.server.impl.pmf;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -11,12 +14,11 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import ws.softlabs.lib.kino.dao.server.intf.ShowDAO;
-import ws.softlabs.lib.kino.dao.server.model.pmf.PHall;
-import ws.softlabs.lib.kino.dao.server.model.pmf.PShow;
+import ws.softlabs.lib.kino.dao.server.model.pmf.*;
 import ws.softlabs.lib.kino.dao.server.service.pmf.PMF;
-import ws.softlabs.lib.kino.model.client.Hall;
-import ws.softlabs.lib.kino.model.client.Show;
-import ws.softlabs.lib.kino.model.client.Theater;
+import ws.softlabs.lib.kino.model.client.*;
+import ws.softlabs.lib.util.client.DateUtils;
+import ws.softlabs.lib.util.client.DayComparator;
 
 public class PMFShowDAOImpl implements ShowDAO {
 
@@ -40,10 +42,15 @@ public class PMFShowDAOImpl implements ShowDAO {
 				query.declareParameters("com.google.appengine.api.datastore.Key keyParam, " +
 						                "long dateParam");
 				
+				log.debug(query.toString());
+				log.debug("hall key = " + phall.getKey());
+				log.debug("timestamp: " + (dateTime.getTime() / 1000) * 1000);
 				List<PShow> pshows = 
-					(List<PShow>)query.execute(phall.getKey(), dateTime.getTime());
+					(List<PShow>)query.execute(phall.getKey(), (dateTime.getTime() / 1000) * 1000);
+				
 				log.debug("query executed");
 				if(pshows != null && !pshows.isEmpty()) {
+					log.debug("daoResult size: " + pshows.size());
 					Show result = pshows.get(0).asShow(); 
 					log.debug("EXIT returning show: " + result);
 					return result;
@@ -70,9 +77,13 @@ public class PMFShowDAOImpl implements ShowDAO {
 	@SuppressWarnings("unchecked")
 	public List<Show> getList(Hall hall, Date date) {
 		log.debug("ENTER (hall = " + hall + ", date = " + date + ")");
-		DateTime dt = new DateTime(date);
-		long tsLow  = dt.toDateMidnight().getMillis();
-		long tsHigh = dt.plusDays(1).toDateMidnight().getMillis();
+		//DateTime dt = new DateTime(date);
+		long tsLow  = date.getTime();//dt.toDateMidnight().getMillis();
+		long tsHigh = (new DateTime(date)).plusDays(1).toDate().getTime();
+		
+		log.debug("timstamp min = " + tsLow);
+		log.debug("timstamp max = " + tsHigh);
+		
 		PersistenceManager pm = PMF.getPersistenceManager();
 		List<PShow> pshows = null;
 		List<Show>  result = null;
@@ -88,6 +99,9 @@ public class PMFShowDAOImpl implements ShowDAO {
 										"long sinceParam, " +
 										"long tillParam");
 				query.setOrdering("timestamp");
+				
+				log.debug("query for shows: " + query.toString());
+				
 				pshows = 
 					(List<PShow>)query.execute(phall.getKey(), tsLow, tsHigh);
 				log.debug("executed query");
@@ -118,6 +132,10 @@ public class PMFShowDAOImpl implements ShowDAO {
 			return null;
 		}
 	}
+	public List<Show> getListSince(Hall hall, Date date) {
+		log.error("****** NOT IMPLEMENTED YET ********");
+		return null;
+	}
 	public boolean add(Show show) {
 		log.debug("ENTER (show = " + show +")");
 		if (show == null) {
@@ -125,21 +143,20 @@ public class PMFShowDAOImpl implements ShowDAO {
 			return false;
 		}		
 		PersistenceManager pm = PMF.getPersistenceManager();
+		PShow pshow = new PShow(show);
 		try {
-			log.debug("trying to create new PShow...");
-			PShow pshow = new PShow(show);
-			log.debug("created new PShow: '" + pshow + "'");
 			pm.makePersistent(pshow);
-			show.setId(pshow.getKey().getId());
 			log.debug("EXIT (true)");			
 			return true;
 		} catch (Exception e) {
 			log.error("EXIT (EXCEPTION): " + e);
-			//ex.printStackTrace(System.err);
+			//e.printStackTrace(System.err);
 			//return false;
 			return true;
 		} catch (Throwable t) {
 			log.error("EXIT (THROWABLE): " + t);
+			//t.printStackTrace();
+			//return false;
 			return true;
 		} finally {
 			pm.close();
@@ -153,18 +170,110 @@ public class PMFShowDAOImpl implements ShowDAO {
 		log.error("****** NOT IMPLEMENTED YET ********");
 		return false;
 	}
-	public List<Show> getListSince(Hall hall, Date date) {
-		log.error("****** NOT IMPLEMENTED YET ********");
-		return null;
-	}
+	
 	public List<String> getDaysList(Theater theater, Date date) {
-		log.error("****** NOT IMPLEMENTED YET ********");
+		return getDaysList(theater, date, true);
+	}
+	@SuppressWarnings("unchecked")
+	private List<String> getDaysList(Theater theater, Date date, boolean close) {
+		log.debug("ENTER");
+		PersistenceManager pm = PMF.getPersistenceManager();
+
+		Set<String> result = new TreeSet<String>();
+		
+		List<PHall> phalls = PMFDAOUtils.getHallList(theater);
+		
+		if (phalls != null) {
+			for(PHall ph : phalls) {
+				try {
+					Query query = pm.newQuery(PShow.class);
+					query.setFilter("hallKey == keyParam && timestamp > sinceParam");
+					query.declareParameters("com.google.appengine.api.datastore.Key keyParam, " +
+											"long sinceParam");
+					query.setOrdering("timestamp");
+					List<PShow> pshows = (List<PShow>)query.execute(ph.getKey(), 
+							DateUtils.dateToMidnight(new Date(System.currentTimeMillis())).getTime());
+					if (pshows != null) {
+						for(PShow ps : pshows)
+							result.add(DateUtils.dateToStringSpecial(ps.getDate()));
+
+						List<String> days = new ArrayList<String>(result); 
+						Collections.sort(days, new DayComparator());
+						log.debug("got " + days.size() + " days");
+						log.debug("EXIT");
+						return days;
+					}
+				} catch (Exception e) {
+					log.error("EXIT (EXCEPTION): " + e);
+					return null;
+				} finally {
+					if (close)
+						pm.close();
+				}
+			}
+		}
+		log.debug("can't get PHalls from DB");
+		log.debug("EXIT (NULL)");
 		return null;
 	}
 	public Long getNextId() {
 		// STUB - not needed for PMF
 		log.error("****** SHOULD NOT BE CALLED ********");
 		return null;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getRawList() {
+		PersistenceManager pm = PMF.getPersistenceManager();
+		List<PShow>  pshows = null;
+		List<String> result    = null;
+		try {
+			Query query = pm.newQuery(PShow.class);
+			query.setOrdering("hallKey, timestamp");
+			pshows = (List<PShow>)query.execute();
+			if(pshows != null && !pshows.isEmpty()) {
+				result = new ArrayList<String>();
+				for (PShow pt : pshows)
+					//result.add(pt.asShow().toString());
+					result.add(pt.toString());
+				return result;
+			} else {
+				return null;
+			}
+		} catch (Exception ex) {
+			return null;
+		} finally {
+			pm.close();
+		}
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getRawDayList() {
+		PersistenceManager pm = PMF.getPersistenceManager();
+		List<PTheater> ptheaters = null;
+		Set<String>       result = new TreeSet<String>();
+		try {
+			Query query = pm.newQuery(PTheater.class);			
+			ptheaters = (List<PTheater>)query.execute();
+			if(ptheaters != null && !ptheaters.isEmpty()) {
+				for(PTheater pt : ptheaters) {
+					List<String> days = getDaysList(pt.asTheater(), new Date(), false);
+					if (days != null && !days.isEmpty())
+						result.addAll(days);
+				}
+				List<String> d = new ArrayList<String>(result); 
+				Collections.sort(d, new DayComparator());
+				return d;				
+			} else {
+				log.debug("EXIT (NULL)");
+				return null;
+			}
+		} catch (Exception ex) {
+			log.debug("EXIT (EXCEPTION) " + ex);
+			return null;
+		} finally {
+			pm.close();
+		}
 	}
 
 }

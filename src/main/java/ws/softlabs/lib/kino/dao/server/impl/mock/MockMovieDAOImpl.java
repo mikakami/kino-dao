@@ -55,5 +55,10 @@ public class MockMovieDAOImpl implements MovieDAO {
 		if (movie == null) return false;		
 		return ( movies.remove(CollectionUtils.getIndexOf(movies.toArray(), movie)) != null );
 	}
+	@Override
+	public List<String> getRawList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

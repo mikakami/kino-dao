@@ -12,4 +12,6 @@ public interface TheaterDAO {
 	boolean update(Theater theater);
 	boolean remove(Theater theater);	
 	Long getNextId();
+	
+	List<String> getRawList();
 }

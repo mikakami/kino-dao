@@ -72,5 +72,10 @@ public class MockHallDAOImpl implements HallDAO {
 			result = Math.max(result, h.getId());
 		return result+1;
 	}
+	@Override
+	public List<String> getRawList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

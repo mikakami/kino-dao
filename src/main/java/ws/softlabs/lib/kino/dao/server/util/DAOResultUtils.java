@@ -64,5 +64,11 @@ public class DAOResultUtils {
 			log.debug(o);
 		log.debug("EXIT");
 	}
+	public static void printStringList(List<String> list) {
+		if (list == null)
+			return;
+		for(String s : list)
+			log.debug(s);
+	}
 
 }

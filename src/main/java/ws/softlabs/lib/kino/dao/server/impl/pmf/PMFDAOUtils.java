@@ -115,27 +115,41 @@ public class PMFDAOUtils {
 	}	
 	public static PHall getPHall(Hall hall) {
 		log.debug("ENTER (hall = " + hall + ")");
-		PTheater theater = getPTheater(hall.getTheatre());
+		
+		//String hallName = new String(hall.getName());
+		//String hallHtml = new String(hall.getHtml());
+		
+		//log.debug("hallName = " + hallName);
+		//log.debug("hallHtml = " + hallHtml);
+		PTheater theater = null;
+			
+		if (hall != null)
+			theater = getPTheater(hall.getTheatre());
+		
 		if (theater == null) {
 			log.debug("EXIT (NULL) [theater = NULL]");
 			return null;
 		}
+
 		PHall result = getPHall(theater.getKey(), hall.getName(), hall.getHtml());
 		log.debug("EXIT (result = " + result + ")");
 		return result;
 	}
 	@SuppressWarnings("unchecked")
 	public static PHall getPHall(Key theaterKey, String name, String html) {
+		name = (name == null) ? "" : name;
+		html = (html == null) ? "" : html;
 		log.debug("ENTER (theaterKey = " + theaterKey + ", name = " + name + ", html = " + html + ")");
 		PersistenceManager pm = PMF.getPersistenceManager();
 		try {
 			Query query = pm.newQuery(PHall.class);
-			query.setFilter("name == nameParam && html == htmlParam && key == keyParam");
+			query.setFilter("name == nameParam && theaterKey == keyParam"); //html == htmlParam && 
 			query.declareParameters("String nameParam, " +
-									"String htmlParam, " +
+									//"String htmlParam, " +
 									"com.google.appengine.api.datastore.Key keyParam");
+			log.debug(query.toString());
 			List<PHall> phalls = 
-				(List<PHall>)query.execute(name, html, theaterKey);
+				(List<PHall>)query.execute(name, /*html,*/ theaterKey);
 			log.debug("executed query");
 			if(phalls != null && !phalls.isEmpty()) {
 				PHall result = phalls.get(0);
@@ -182,7 +196,7 @@ public class PMFDAOUtils {
 		log.debug("ENTER (name = " + name + ", url = " + url + ")");
 		PersistenceManager pm = PMF.getPersistenceManager();
 		try {
-			Query query = pm.newQuery(PTheater.class);
+			Query query = pm.newQuery(PMovie.class);
 			query.setFilter("name == nameParam && url == urlParam");
 			query.declareParameters("String nameParam, String urlParam");
 			List<PMovie> pmovies = 
@@ -244,4 +258,41 @@ public class PMFDAOUtils {
 		log.debug("EXIT OK");
 	}
 
+	@SuppressWarnings("unchecked")
+	public static List<PHall> getHallList(Theater theater) {
+		log.debug("ENTER (theater = " + theater + ")");
+		
+		PTheater ptheater = null;
+		
+		if (theater != null)
+			ptheater = getPTheater(theater);		
+		
+		if (ptheater == null) {
+			log.debug("EXIT (NULL) [ptheater == NULL]");
+			return null;
+		}
+		
+		PersistenceManager pm = PMF.getPersistenceManager();
+		
+		try {
+			Query query = pm.newQuery(PHall.class);
+			query.setFilter("theaterKey == keyParam"); 
+			query.declareParameters("com.google.appengine.api.datastore.Key keyParam");
+			log.debug(query.toString());
+			List<PHall> phalls = 
+				(List<PHall>)query.execute(ptheater.getKey());
+			if(phalls != null && !phalls.isEmpty()) {
+				log.debug("EXIT (result.size = " + phalls.size() + ")");
+				return phalls;
+			} else {
+				log.debug("EXIT (NULL)");
+				return null;
+			}
+		} catch (Exception ex) {
+			log.warn("EXIT (EXCEPTION): " + ex);
+			return null;
+		} finally {		
+			pm.close();
+		}			
+	}
 }

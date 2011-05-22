@@ -132,5 +132,30 @@ public class PMFTheaterDAOImpl implements TheaterDAO {
 		log.error("****** SHOULD NOT BE CALLED IN PMF DAO IMPLEMENTATION ********");
 		return 0L;
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getRawList() {
+		PersistenceManager pm = PMF.getPersistenceManager();
+		List<PTheater> ptheaters = null;
+		List<String>  result    = null;
+		try {
+			Query query = pm.newQuery(PTheater.class);
+			query.setOrdering("name");
+			ptheaters = (List<PTheater>)query.execute();
+			if(ptheaters != null && !ptheaters.isEmpty()) {
+				result = new ArrayList<String>();
+				for (PTheater pt : ptheaters)
+					//result.add(pt.asTheater().toString());
+					result.add(pt.toString());
+				return result;
+			} else {
+				return null;
+			}
+		} catch (Exception ex) {
+			return null;
+		} finally {
+			pm.close();
+		}
+	}
 	
 }

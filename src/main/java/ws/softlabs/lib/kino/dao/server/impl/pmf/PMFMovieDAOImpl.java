@@ -119,5 +119,30 @@ public class PMFMovieDAOImpl implements MovieDAO {
 		log.error("****** SHOULD NOT BE CALLED IN PMF DAO IMPLEMENTATION ********");
 		return null;
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getRawList() {
+		PersistenceManager pm = PMF.getPersistenceManager();
+		List<PMovie>  pmovies = null;
+		List<String>  result  = null;
+		try {
+			Query query = pm.newQuery(PMovie.class);
+			query.setOrdering("name");
+			pmovies = (List<PMovie>)query.execute();
+			if(pmovies != null && !pmovies.isEmpty()) {
+				result = new ArrayList<String>();
+				for (PMovie m : pmovies)
+//					result.add(m.asMovie().toString());
+					result.add(m.toString());
+				return result;
+			} else {
+				return null;
+			}
+		} catch (Exception ex) {
+			return null;
+		} finally {
+			pm.close();
+		}
+	}
 
 }

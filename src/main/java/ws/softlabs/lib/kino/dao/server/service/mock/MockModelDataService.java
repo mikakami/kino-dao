@@ -178,4 +178,49 @@ public class MockModelDataService implements DataService {
 		daoHall.getList().removeAll   (daoHall.getList());
 		daoShow.getList().removeAll   (daoShow.getList());
 	}
+	@Override
+	public List<String> getRawTheaterList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<String> getRawHallList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<String> getRawDayList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<String> getRawMovieList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<String> getRawShowList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void clearTheaters() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void clearHalls() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void clearShows() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void clearMovies() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -83,4 +83,14 @@ public class MockShowDAOImpl implements ShowDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public List<String> getRawList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<String> getRawDayList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

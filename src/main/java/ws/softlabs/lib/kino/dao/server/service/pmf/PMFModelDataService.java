@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+
 import org.apache.log4j.Logger;
 
 import ws.softlabs.lib.kino.dao.server.impl.pmf.PMFDAOUtils;
@@ -19,6 +22,11 @@ import ws.softlabs.lib.kino.dao.server.intf.HallDAO;
 import ws.softlabs.lib.kino.dao.server.intf.MovieDAO;
 import ws.softlabs.lib.kino.dao.server.intf.ShowDAO;
 import ws.softlabs.lib.kino.dao.server.intf.TheaterDAO;
+import ws.softlabs.lib.kino.dao.server.model.pmf.PHall;
+import ws.softlabs.lib.kino.dao.server.model.pmf.PMovie;
+import ws.softlabs.lib.kino.dao.server.model.pmf.PShow;
+import ws.softlabs.lib.kino.dao.server.model.pmf.PTheater;
+import ws.softlabs.lib.kino.dao.server.util.DAOResultUtils;
 import ws.softlabs.lib.kino.model.client.Hall;
 import ws.softlabs.lib.kino.model.client.Movie;
 import ws.softlabs.lib.kino.model.client.Show;
@@ -231,8 +239,8 @@ public class PMFModelDataService implements DataService {
 	}
 	public List<Show>    getShowList(Hall hall, Date date){
 		log.debug("ENTER");
-		List<Show> daoList =  daoShow.getListSince(hall, DateUtils.dateToMidnight
-				(new Date(System.currentTimeMillis())));  
+		List<Show> daoList = daoShow.getList(hall, date);
+		/*Since*/ //(new Date(System.currentTimeMillis())));  
 		if (daoList != null && !daoList.isEmpty()) {
 			log.debug("daoShow returned list of shows");
 			List<Show> result = new ArrayList<Show>(daoList);
@@ -260,10 +268,96 @@ public class PMFModelDataService implements DataService {
 		}
 	}
 	
+	/********************************************/
+	public List<String>		getRawTheaterList() {
+		List<String> result = daoTheater.getRawList();
+		//DAOResultUtils.printStringList(result);
+		return result;
+	}
+	public List<String>		getRawHallList() {
+		List<String> result = daoHall.getRawList();		
+		//DAOResultUtils.printStringList(result);
+		return result;
+	}
+	public List<String>		getRawDayList() {
+		List<String> result = daoShow.getRawDayList();
+		//DAOResultUtils.printStringList(result);
+		return result;
+	}
+	public List<String>		getRawMovieList() {
+		List<String> result = daoMovie.getRawList();
+		//DAOResultUtils.printStringList(result);
+		return result;
+	}
+	public List<String>		getRawShowList() {
+		List<String> result = daoShow.getRawList();
+		//DAOResultUtils.printStringList(result);
+		return result;
+	}
 	public void clearDatabase() {
 		log.debug("ENTER");
 		PMFDAOUtils.removeAll();	
 		log.debug("EXIT");
 	}
+	@Override
+	public void clearTheaters() {
+		log.debug("ENTER");
+		PersistenceManager pm = PMF.getPersistenceManager();
+		try {
+			Query query = pm.newQuery(PTheater.class);
+			query.deletePersistentAll();
+			log.debug("cleared PTheater");
+		} catch (Exception ex) {
+			log.debug("EXIT (EXCEPTION)" + ex);
+		} finally {
+			pm.close();
+		}
+		log.debug("EXIT");
+	}
+	@Override
+	public void clearHalls() {
+		log.debug("ENTER");
+		PersistenceManager pm = PMF.getPersistenceManager();
+		try {
+			Query query = pm.newQuery(PHall.class);
+			query.deletePersistentAll();
+			log.debug("cleared PHall");
+		} catch (Exception ex) {
+			log.debug("EXIT (EXCEPTION)" + ex);
+		} finally {
+			pm.close();
+		}
+		log.debug("EXIT");
+	}
+	@Override
+	public void clearShows() {
+		log.debug("ENTER");
+		PersistenceManager pm = PMF.getPersistenceManager();
+		try {
+			Query query = pm.newQuery(PShow.class);
+			query.deletePersistentAll();
+			log.debug("cleared PShow");
+		} catch (Exception ex) {
+			log.debug("EXIT (EXCEPTION)" + ex);
+		} finally {
+			pm.close();
+		}
+		log.debug("EXIT");
+	}
+	@Override
+	public void clearMovies() {
+		log.debug("ENTER");
+		PersistenceManager pm = PMF.getPersistenceManager();
+		try {
+			Query query = pm.newQuery(PMovie.class);
+			query.deletePersistentAll();
+			log.debug("cleared PMovie");
+		} catch (Exception ex) {
+			log.debug("EXIT (EXCEPTION)" + ex);
+		} finally {
+			pm.close();
+		}
+		log.debug("EXIT");
+	}	
 	
 }

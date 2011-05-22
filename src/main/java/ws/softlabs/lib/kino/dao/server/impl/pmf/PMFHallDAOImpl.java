@@ -160,5 +160,34 @@ public class PMFHallDAOImpl implements HallDAO {
 		log.error("****** SHOULD NOT BE CALLED IN PMF DAO IMPLEMENTATION ********");
 		return 0L;
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getRawList() {
+		PersistenceManager pm = PMF.getPersistenceManager();
+		List<PHall>  phalls = null;
+		List<String> result = null;
+		try {
+			Query query = pm.newQuery(PHall.class);
+			query.setOrdering("theaterKey, name");
+			phalls = (List<PHall>)query.execute();
+			if(phalls != null && !phalls.isEmpty()) {
+				result = new ArrayList<String>();
+				for (PHall pt : phalls) {
+//					String s = pt.getTheaterKey() + " "; 
+//					s += pt.getKey().toString() + " - '";
+//					s += pt.getName() + "' - '" + pt.getHtml() + "'";
+//					result.add(s);
+					result.add(pt.toString());
+				}
+				return result;
+			} else {
+				return null;					
+			}
+		} catch (Exception e) {
+			return null;
+		} finally {
+			pm.close();
+		}
+	}
 
 }

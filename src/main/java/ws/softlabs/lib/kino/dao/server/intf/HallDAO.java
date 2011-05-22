@@ -13,4 +13,6 @@ public interface HallDAO {
 	boolean update(Hall hall);
 	boolean remove(Hall hall);	
 	Long getNextId();
+	
+	List<String> getRawList();
 }

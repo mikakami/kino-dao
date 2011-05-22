@@ -11,4 +11,6 @@ public interface MovieDAO {
 	boolean update(Movie movie);
 	boolean remove(Movie movie);	
 	Long getNextId();
+	
+	List<String> getRawList();
 }

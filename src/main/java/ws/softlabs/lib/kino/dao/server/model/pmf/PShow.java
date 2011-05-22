@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -23,45 +24,78 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class PShow {
 
+	@NotPersistent
 	private static final Logger log = 
 		Logger.getLogger("kino.pmfdao.model." + PShow.class.getSimpleName());
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)	
-	private Key				key;
+	private Key				key = null;
 	
 	@Persistent	
-	private	long			timestamp;
+	private	long			timestamp = 0L;
 	
 	@Persistent	
-	private	Key				hallKey;
+	private	Key				hallKey = null;
 	
 	@Persistent	
-	private	Key				movieKey;
+	private	Key				movieKey = null;
 	
 	@Persistent	
-	private List<Integer> 	price;
+	private List<Integer> 	price = null;
 	
-	public PShow(){
-		init(null, null, null, null);
+	public PShow() {
+		log.debug("ENTER default constructor");
+		//init(null, null, null, null);
+		log.debug("EXIT default constructor (result = " + this.toString() + ")");
 	}
 	public PShow(Hall hall, Movie movie, Date date, List<Integer> price) {
+		log.debug("ENTER params constructor");
 		init(hall, movie, date, price);
+		log.debug("EXIT params constructor (result = " + this.toString() + ")");
 	}
 	public PShow(Show show) {
-System.err.println("PShow constructor (show = " + show + ")");
+		log.debug("ENTER constructor (show = " + show + ")");
 		if (show != null) {			
 			init(show.getHall(), show.getMovie(), show.getDate(), show.getPrice());
 		} else {
 			init(null, null, null, null);
 		}
-System.err.println("PShow constructor DONE (result = " + this.toString() + ")");
+		log.debug("EXIT show constructor (result = " + this.toString() + ")");
 	}
 	public void init(Hall hall, Movie movie, Date dateTime, List<Integer> price) {
-		this.setHallKey(PMFDAOUtils.getPHall(hall).getKey());
-		this.setMovieKey(PMFDAOUtils.getPMovie(movie).getKey());
-		this.timestamp  =  dateTime.getTime();
-		this.price 		=  price;
+		log.debug("ENTER");
+		
+		PHall  phall  = null;
+		PMovie pmovie = null;
+		
+		if (hall != null)
+			phall = PMFDAOUtils.getPHall(hall);
+		if (movie != null)
+			pmovie = PMFDAOUtils.getPMovie(movie);
+
+		if (phall != null)
+			this.setHallKey(phall.getKey());
+		if (pmovie != null)
+			this.setMovieKey(pmovie.getKey());
+		
+		if (dateTime != null) {
+			this.timestamp  =  dateTime.getTime();
+			this.timestamp = this.timestamp / 1000;
+			this.timestamp = this.timestamp * 1000;
+		}
+		
+		if (price != null) {
+			this.price = new ArrayList<Integer>();
+			for(Integer i : price) {
+				if (i == null)
+					this.price.add(-1);
+				else 
+					this.price.add(i);
+			}
+		}		
+		
+		log.debug("EXIT");
 	}
 	public void init (Hall hall, Movie movie, Date date) {
 		init(hall, movie, date, new ArrayList<Integer>());
@@ -94,7 +128,8 @@ System.err.println("PShow constructor DONE (result = " + this.toString() + ")");
 		return price;
 	}
 	public void setPrice(List<Integer> price) {
-		this.price = price;
+		if (price != null)
+			this.price = new ArrayList<Integer>(price);
 	}
 	public Date getDate() {
 		return new Date(this.timestamp);
@@ -106,15 +141,29 @@ System.err.println("PShow constructor DONE (result = " + this.toString() + ")");
 	public String toString() {
 		Date date = new Date(timestamp);
 		String dt = DateUtils.dateToStringSpecial(date);
-		String tm = date.getHours() + ":" + date.getMinutes();		
-		return dt + " " + tm + " " + hallKey + " " + movieKey;
+		String tm = date.getHours() + ":" + date.getMinutes();	
+		String p = "";
+		if (price != null && !price.isEmpty())
+			for(Integer i : price)
+				p += i + " ";
+		return dt + " " + tm + " (" + timestamp + ") " + hallKey + " " + movieKey + " " + p;
 	}
 	public Show asShow() {
 		long     id = this.getKey().getId();
 		Hall   hall = PMFDAOUtils.getPHall(this.hallKey).asHall();
-		Movie movie = PMFDAOUtils.getPMovie(this.hallKey).asMovie();
+		Movie movie = PMFDAOUtils.getPMovie(this.movieKey).asMovie();
 		Date   date = new Date(timestamp);
-		return new Show(id, hall, movie, date, price);
+		List<Integer> newPrice = new ArrayList<Integer>();
+		
+		if (price != null) {
+			for(Integer i : price)
+				if (i >= 0)
+					newPrice.add(i);
+				else 
+					newPrice.add(null);
+			return new Show(id, hall, movie, date, newPrice);	
+		} else
+			return new Show(id, hall, movie, date, null);
 	}
 
 /*	public Hall getHall() {
