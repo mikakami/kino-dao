@@ -1,10 +1,13 @@
 package ws.softlabs.lib.kino.dao.server.service.pmf;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.TreeSet;
 
 import javax.jdo.PersistenceManager;
@@ -254,10 +257,23 @@ public class PMFModelDataService implements DataService {
 	}
 	public List<String>  getShowDaysList(Theater theater) {
 		log.debug("ENTER");
-		List<String> daoShowDays = daoShow.getDaysList(theater, new Date(System.currentTimeMillis()));
+		
+		/************ PERHAPS  NEEDS  REWORK *****************/
+		TimeZone tz = TimeZone.getTimeZone("Asia/Vladivostok");
+		Calendar mbCal = new GregorianCalendar(tz);
+		mbCal.setTimeInMillis(	System.currentTimeMillis() + 
+								tz.getOffset(0) + 
+								tz.getDSTSavings()
+							 );
+//		System.out.println("Client time (" + 
+//							tz.getDisplayName() + 
+//							"): " + mbCal.getTime());
+		/*****************************************************/
+		Date dateSince = mbCal.getTime();
+		List<String> daoShowDays = daoShow.getDaysList(theater, dateSince);
+		
 		if (daoShowDays != null && !daoShowDays.isEmpty()) {
 			log.debug("daoShow returned list of days");
-			//List<String> daysList = new ArrayList<String>(daoShowDays);
 			Collections.sort(daoShowDays, new DayComparator());
 			log.debug("EXIT (result.size = " + daoShowDays.size() + ")");
 			return daoShowDays;

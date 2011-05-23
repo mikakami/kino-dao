@@ -192,7 +192,8 @@ public class PMFShowDAOImpl implements ShowDAO {
 											"long sinceParam");
 					query.setOrdering("timestamp");
 					List<PShow> pshows = (List<PShow>)query.execute(ph.getKey(), 
-							DateUtils.dateToMidnight(new Date(System.currentTimeMillis())).getTime());
+																	date.getTime());
+							//DateUtils.dateToMidnight(new Date(System.currentTimeMillis())).getTime());
 					if (pshows != null) {
 						for(PShow ps : pshows)
 							result.add(DateUtils.dateToStringSpecial(ps.getDate()));
