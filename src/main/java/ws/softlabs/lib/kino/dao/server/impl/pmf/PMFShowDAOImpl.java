@@ -77,12 +77,17 @@ public class PMFShowDAOImpl implements ShowDAO {
 	@SuppressWarnings("unchecked")
 	public List<Show> getList(Hall hall, Date date) {
 		log.debug("ENTER (hall = " + hall + ", date = " + date + ")");
-		//DateTime dt = new DateTime(date);
-		long tsLow  = date.getTime();//dt.toDateMidnight().getMillis();
+
+		long tsLow  = date.getTime();
 		long tsHigh = (new DateTime(date)).plusDays(1).toDate().getTime();
 		
-		log.debug("timstamp min = " + tsLow);
-		log.debug("timstamp max = " + tsHigh);
+		log.info("timstamp min = " + tsLow);
+		log.info("timstamp max = " + tsHigh);
+		
+		log.info("tsStart   = " + tsLow);
+		log.info("tsEnd     = " + tsHigh);
+		log.info("dateStart = " + date);
+		log.info("dateEnd   = " + (new DateTime(date)).plusDays(1).toDate());		
 		
 		PersistenceManager pm = PMF.getPersistenceManager();
 		List<PShow> pshows = null;
@@ -93,7 +98,7 @@ public class PMFShowDAOImpl implements ShowDAO {
 			try {
 				Query query = pm.newQuery(PShow.class);
 				query.setFilter("hallKey   == keyParam  && " + 
-								"timestamp > sinceParam && " +
+								"timestamp >= sinceParam && " +
 								"timestamp <= tillParam ");
 				query.declareParameters("com.google.appengine.api.datastore.Key keyParam, " +
 										"long sinceParam, " +
@@ -193,7 +198,6 @@ public class PMFShowDAOImpl implements ShowDAO {
 					query.setOrdering("timestamp");
 					List<PShow> pshows = (List<PShow>)query.execute(ph.getKey(), 
 																	date.getTime());
-							//DateUtils.dateToMidnight(new Date(System.currentTimeMillis())).getTime());
 					if (pshows != null) {
 						for(PShow ps : pshows)
 							result.add(DateUtils.dateToStringSpecial(ps.getDate()));

@@ -240,10 +240,9 @@ public class PMFModelDataService implements DataService {
 			return null;
 		}
 	}
-	public List<Show>    getShowList(Hall hall, Date date){
+	public List<Show>    getShowList(Hall hall, Date day){
 		log.debug("ENTER");
-		List<Show> daoList = daoShow.getList(hall, date);
-		/*Since*/ //(new Date(System.currentTimeMillis())));  
+		List<Show> daoList = daoShow.getList(hall, day);
 		if (daoList != null && !daoList.isEmpty()) {
 			log.debug("daoShow returned list of shows");
 			List<Show> result = new ArrayList<Show>(daoList);
