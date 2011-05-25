@@ -13,6 +13,7 @@ import javax.jdo.Query;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
+import ws.softlabs.lib.util.client.Constants;
 import ws.softlabs.lib.kino.dao.server.intf.ShowDAO;
 import ws.softlabs.lib.kino.dao.server.model.pmf.*;
 import ws.softlabs.lib.kino.dao.server.service.pmf.PMF;
@@ -79,16 +80,11 @@ public class PMFShowDAOImpl implements ShowDAO {
 		log.debug("ENTER (hall = " + hall + ", date = " + date + ")");
 
 		long tsLow  = date.getTime();
-		long tsHigh = (new DateTime(date)).plusDays(1).toDate().getTime();
+		long tsHigh = tsLow + Constants.oneDay;
 		
 		log.info("timstamp min = " + tsLow);
 		log.info("timstamp max = " + tsHigh);
-		
-		log.info("tsStart   = " + tsLow);
-		log.info("tsEnd     = " + tsHigh);
-		log.info("dateStart = " + date);
-		log.info("dateEnd   = " + (new DateTime(date)).plusDays(1).toDate());		
-		
+
 		PersistenceManager pm = PMF.getPersistenceManager();
 		List<PShow> pshows = null;
 		List<Show>  result = null;
@@ -104,9 +100,6 @@ public class PMFShowDAOImpl implements ShowDAO {
 										"long sinceParam, " +
 										"long tillParam");
 				query.setOrdering("timestamp");
-				
-				log.debug("query for shows: " + query.toString());
-				
 				pshows = 
 					(List<PShow>)query.execute(phall.getKey(), tsLow, tsHigh);
 				log.debug("executed query");
@@ -179,7 +172,7 @@ public class PMFShowDAOImpl implements ShowDAO {
 	public List<String> getDaysList(Theater theater, Date date) {
 		return getDaysList(theater, date, true);
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	private List<String> getDaysList(Theater theater, Date date, boolean close) {
 		log.debug("ENTER");
 		PersistenceManager pm = PMF.getPersistenceManager();
@@ -199,8 +192,10 @@ public class PMFShowDAOImpl implements ShowDAO {
 					List<PShow> pshows = (List<PShow>)query.execute(ph.getKey(), 
 																	date.getTime());
 					if (pshows != null) {
-						for(PShow ps : pshows)
-							result.add(DateUtils.dateToStringSpecial(ps.getDate()));
+						for(PShow ps : pshows) {
+							if (ps.getDate().getHours() > Constants.dayOffset)
+								result.add(DateUtils.dateToStringSpecial(ps.getDate()));
+						}
 
 						List<String> days = new ArrayList<String>(result); 
 						Collections.sort(days, new DayComparator());
