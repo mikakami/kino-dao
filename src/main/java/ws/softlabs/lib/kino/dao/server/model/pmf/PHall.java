@@ -8,7 +8,8 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ws.softlabs.lib.kino.dao.server.impl.pmf.PMFDAOUtils;
 import ws.softlabs.lib.kino.model.client.Hall;
@@ -21,7 +22,7 @@ public class PHall implements StoreCallback {
 
 	@NotPersistent
 	private static final Logger log = 
-		Logger.getLogger("kino.pmfdao.model." + PHall.class.getSimpleName());
+		LoggerFactory.getLogger("kino.pmfdao.model." + PHall.class.getSimpleName());
 	
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)		

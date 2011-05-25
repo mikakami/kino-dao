@@ -6,7 +6,8 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ws.softlabs.lib.kino.dao.server.intf.TheaterDAO;
 import ws.softlabs.lib.kino.dao.server.model.pmf.PTheater;
@@ -16,7 +17,7 @@ import ws.softlabs.lib.kino.model.client.Theater;
 public class PMFTheaterDAOImpl implements TheaterDAO {
 
 	private static final Logger log = 
-		Logger.getLogger("kino.pmfdao.impl." + PMFTheaterDAOImpl.class.getSimpleName());
+		LoggerFactory.getLogger("kino.pmfdao.impl." + PMFTheaterDAOImpl.class.getSimpleName());
 
 	public Theater get(Long id) { /*
 		PersistenceManager pm = PMF.getPersistenceManager();

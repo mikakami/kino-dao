@@ -13,7 +13,8 @@ import java.util.TreeSet;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ws.softlabs.lib.kino.dao.server.impl.pmf.PMFDAOUtils;
 import ws.softlabs.lib.kino.dao.server.impl.pmf.PMFHallDAOImpl;
@@ -41,7 +42,7 @@ import ws.softlabs.lib.util.client.DayComparator;
 public class PMFModelDataService implements DataService {
 
 	private static final Logger log = 
-		Logger.getLogger("kino.pmfdao.service." + PMFModelDataService.class.getSimpleName());
+		LoggerFactory.getLogger("kino.pmfdao.service." + PMFModelDataService.class.getSimpleName());
 	
 	private static final TheaterDAO daoTheater = new PMFTheaterDAOImpl();
 	private static final MovieDAO 	daoMovie   = new PMFMovieDAOImpl();

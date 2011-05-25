@@ -10,8 +10,8 @@ import java.util.TreeSet;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ws.softlabs.lib.util.client.Constants;
 import ws.softlabs.lib.kino.dao.server.intf.ShowDAO;
@@ -24,7 +24,7 @@ import ws.softlabs.lib.util.client.DayComparator;
 public class PMFShowDAOImpl implements ShowDAO {
 
 	private static final Logger log = 
-		Logger.getLogger("kino.pmfdao.impl." + PMFShowDAOImpl.class.getSimpleName());
+		LoggerFactory.getLogger("kino.pmfdao.impl." + PMFShowDAOImpl.class.getSimpleName());
 
 	public Show get(Long id) {
 		log.error("****** NOT IMPLEMENTED YET ********");

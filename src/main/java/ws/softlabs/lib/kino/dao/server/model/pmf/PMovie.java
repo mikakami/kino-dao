@@ -7,7 +7,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ws.softlabs.lib.kino.model.client.Movie;
 
@@ -18,7 +19,7 @@ public class PMovie {
 
 	@NotPersistent
 	private static final Logger log = 
-		Logger.getLogger("kino.pmfdao.model." + PMovie.class.getSimpleName());
+		LoggerFactory.getLogger("kino.pmfdao.model." + PMovie.class.getSimpleName());
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)	

@@ -6,7 +6,8 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ws.softlabs.lib.kino.dao.server.model.pmf.PHall;
 import ws.softlabs.lib.kino.dao.server.model.pmf.PMovie;
@@ -23,7 +24,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 public class PMFDAOUtils {
 
 	private static final Logger log = 
-		Logger.getLogger("kino.pmfdao.impl." + PMFDAOUtils.class.getSimpleName());
+		LoggerFactory.getLogger("kino.pmfdao.impl." + PMFDAOUtils.class.getSimpleName());
 
 	public static PTheater getPTheater(Theater theater) {
 		log.debug("ENTER (theater = " + theater + ")");

@@ -4,12 +4,13 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PMF {
 
 	private static final Logger log = 
-		Logger.getLogger("kino.pmfdao.service." + PMF.class.getSimpleName());
+		LoggerFactory.getLogger("kino.pmfdao.service." + PMF.class.getSimpleName());
 
 	private static final
 	PersistenceManagerFactory pmfInstance = 

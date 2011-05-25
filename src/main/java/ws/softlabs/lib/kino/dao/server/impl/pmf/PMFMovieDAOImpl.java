@@ -6,7 +6,8 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ws.softlabs.lib.kino.dao.server.intf.MovieDAO;
 import ws.softlabs.lib.kino.dao.server.model.pmf.PMovie;
@@ -16,7 +17,7 @@ import ws.softlabs.lib.kino.model.client.Movie;
 public class PMFMovieDAOImpl implements MovieDAO {
 
 	private static final Logger log = 
-		Logger.getLogger("kino.pmfdao.impl." + PMFMovieDAOImpl.class.getSimpleName());
+		LoggerFactory.getLogger("kino.pmfdao.impl." + PMFMovieDAOImpl.class.getSimpleName());
 
 	public Movie get(Long id) {
 		log.error("****** NOT IMPLEMENTED YET ********");

@@ -11,7 +11,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ws.softlabs.lib.kino.dao.server.impl.pmf.PMFDAOUtils;
 import ws.softlabs.lib.kino.model.client.Hall;
@@ -26,7 +27,7 @@ public class PShow {
 
 	@NotPersistent
 	private static final Logger log = 
-		Logger.getLogger("kino.pmfdao.model." + PShow.class.getSimpleName());
+		LoggerFactory.getLogger("kino.pmfdao.model." + PShow.class.getSimpleName());
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)	

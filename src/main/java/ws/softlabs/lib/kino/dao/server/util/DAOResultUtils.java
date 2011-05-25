@@ -2,7 +2,8 @@ package ws.softlabs.lib.kino.dao.server.util;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ws.softlabs.lib.kino.dao.server.model.pmf.PHall;
 import ws.softlabs.lib.kino.model.client.Hall;
@@ -12,7 +13,7 @@ import ws.softlabs.lib.kino.model.client.Theater;
 public class DAOResultUtils {
 
 	private static final Logger log = 
-		Logger.getLogger("kino.pmfdao.util." + DAOResultUtils.class.getSimpleName());
+		LoggerFactory.getLogger("kino.pmfdao.util." + DAOResultUtils.class.getSimpleName());
 	
 	public static void printTheaterList(String callFunctionName, List<Theater> list) {
 		log.debug("ENTER [called from " + callFunctionName + "]");
@@ -21,7 +22,7 @@ public class DAOResultUtils {
 			return;
 		}
 		for(Theater o : list)
-			log.debug(o);
+			log.debug(o.toString());
 		log.debug("EXIT");
 	}
 	public static void printHallList(String callFunctionName, List<Hall> list) {
@@ -31,7 +32,7 @@ public class DAOResultUtils {
 			return;
 		}
 		for(Hall o : list)
-			log.debug(o);
+			log.debug(o.toString());
 		log.debug("EXIT");
 	}
 	public static void printShowList(String callFunctionName, List<Show> list) {
@@ -41,7 +42,7 @@ public class DAOResultUtils {
 			return;
 		}
 		for(Show o : list)
-			log.debug(o);
+			log.debug(o.toString());
 		log.debug("EXIT");
 	}
 	public static void printShowDaysList(String callFunctionName, List<String> list) {
@@ -61,7 +62,7 @@ public class DAOResultUtils {
 			return;
 		}
 		for(PHall o : list)
-			log.debug(o);
+			log.debug(o.toString());
 		log.debug("EXIT");
 	}
 	public static void printStringList(List<String> list) {

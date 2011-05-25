@@ -6,7 +6,8 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ws.softlabs.lib.kino.dao.server.intf.HallDAO;
 import ws.softlabs.lib.kino.dao.server.model.pmf.PHall;
@@ -18,7 +19,7 @@ import ws.softlabs.lib.kino.model.client.Theater;
 public class PMFHallDAOImpl implements HallDAO {
 
 	private static final Logger log = 
-		Logger.getLogger("kino.pmfdao.impl." + PMFHallDAOImpl.class.getSimpleName());
+		LoggerFactory.getLogger("kino.pmfdao.impl." + PMFHallDAOImpl.class.getSimpleName());
 	
 	public Hall get(Long id) {/*
 		PersistenceManager pm = PMF.getPersistenceManager();
