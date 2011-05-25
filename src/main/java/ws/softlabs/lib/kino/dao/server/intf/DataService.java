@@ -22,6 +22,8 @@ public interface DataService {
 	public List<Show> 		getShowList(Hall hall, Date date);
 	public List<String> 	getShowDaysList(Theater t);
 
+	public void 			clearShows(Hall hall, Date date);
+	
 	/*  tools  */
 	public void				clearDatabase();
 	public void				clearTheaters();

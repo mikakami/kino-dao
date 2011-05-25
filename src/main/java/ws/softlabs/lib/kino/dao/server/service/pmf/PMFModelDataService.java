@@ -29,11 +29,11 @@ import ws.softlabs.lib.kino.dao.server.model.pmf.PHall;
 import ws.softlabs.lib.kino.dao.server.model.pmf.PMovie;
 import ws.softlabs.lib.kino.dao.server.model.pmf.PShow;
 import ws.softlabs.lib.kino.dao.server.model.pmf.PTheater;
-import ws.softlabs.lib.kino.dao.server.util.DAOResultUtils;
 import ws.softlabs.lib.kino.model.client.Hall;
 import ws.softlabs.lib.kino.model.client.Movie;
 import ws.softlabs.lib.kino.model.client.Show;
 import ws.softlabs.lib.kino.model.client.Theater;
+import ws.softlabs.lib.util.client.Constants;
 import ws.softlabs.lib.util.client.DateUtils;
 import ws.softlabs.lib.util.client.DayComparator;
 
@@ -374,5 +374,28 @@ public class PMFModelDataService implements DataService {
 		}
 		log.debug("EXIT");
 	}	
-	
+	public void clearShows(Hall hall, Date date){
+		log.debug("ENTER");
+		PersistenceManager pm = PMF.getPersistenceManager();
+		PHall phall = PMFDAOUtils.getPHall(hall);
+		if (phall != null)
+			try {
+				long tsLow  = DateUtils.dateToMidnight(date).getTime() + Constants.dayOffset;
+				long tsHigh = tsLow + Constants.oneDay; 
+				Query query = pm.newQuery(PShow.class);
+				query.setFilter("hallKey   == keyParam  && " + 
+								"timestamp >= sinceParam && " +
+								"timestamp <= tillParam ");
+				query.declareParameters("com.google.appengine.api.datastore.Key keyParam, " +
+										"long sinceParam, " +
+										"long tillParam");				
+				query.deletePersistentAll(phall.getKey(), tsLow, tsHigh);
+				log.debug("cleared PShow");
+			} catch (Exception ex) {
+				log.debug("EXIT (EXCEPTION)" + ex);
+			} finally {
+				pm.close();
+			}
+		log.debug("EXIT");		
+	}
 }

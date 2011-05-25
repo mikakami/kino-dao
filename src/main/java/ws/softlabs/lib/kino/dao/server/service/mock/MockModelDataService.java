@@ -223,4 +223,9 @@ public class MockModelDataService implements DataService {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void clearShows(Hall hall, Date date) {
+		// TODO Auto-generated method stub
+		
+	}
 }

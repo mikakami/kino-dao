@@ -11,13 +11,16 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
-import ws.softlabs.lib.util.client.Constants;
 import ws.softlabs.lib.kino.dao.server.intf.ShowDAO;
-import ws.softlabs.lib.kino.dao.server.model.pmf.*;
+import ws.softlabs.lib.kino.dao.server.model.pmf.PHall;
+import ws.softlabs.lib.kino.dao.server.model.pmf.PShow;
+import ws.softlabs.lib.kino.dao.server.model.pmf.PTheater;
 import ws.softlabs.lib.kino.dao.server.service.pmf.PMF;
-import ws.softlabs.lib.kino.model.client.*;
+import ws.softlabs.lib.kino.model.client.Hall;
+import ws.softlabs.lib.kino.model.client.Show;
+import ws.softlabs.lib.kino.model.client.Theater;
+import ws.softlabs.lib.util.client.Constants;
 import ws.softlabs.lib.util.client.DateUtils;
 import ws.softlabs.lib.util.client.DayComparator;
 
