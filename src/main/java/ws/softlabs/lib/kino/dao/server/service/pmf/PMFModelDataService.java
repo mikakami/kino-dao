@@ -120,7 +120,6 @@ public class PMFModelDataService implements DataService {
 			return show;	
 		}
 		show = new Show(0L, hall, movie, dateTime, price);
-		//show.init(hall, movie, dateTime, price);
 		log.debug("created show: " + show);
 		if (daoShow.add(show)) {
 			log.debug("EXIT (show = " + show + ")");
@@ -264,9 +263,6 @@ public class PMFModelDataService implements DataService {
 								tz.getOffset(0) + 
 								tz.getDSTSavings()
 							 );
-//		System.out.println("Client time (" + 
-//							tz.getDisplayName() + 
-//							"): " + mbCal.getTime());
 		/*****************************************************/
 		Date dateSince = mbCal.getTime();
 		List<String> daoShowDays = daoShow.getDaysList(theater, dateSince);

@@ -237,7 +237,6 @@ public class PMFShowDAOImpl implements ShowDAO {
 			if(pshows != null && !pshows.isEmpty()) {
 				result = new ArrayList<String>();
 				for (PShow pt : pshows)
-					//result.add(pt.asShow().toString());
 					result.add(pt.toString());
 				return result;
 			} else {

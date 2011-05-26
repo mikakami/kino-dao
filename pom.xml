@@ -4,7 +4,7 @@
 
   <groupId>ws.softlabs.lib</groupId>
   <artifactId>kino-dao</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
   <packaging>jar</packaging>
 
   <name>kino-dao</name>
@@ -26,13 +26,13 @@
     <dependency>
     	<groupId>ws.softlabs.lib</groupId>
     	<artifactId>util</artifactId>
-    	<version>0.0.3</version>
+    	<version>0.0.4</version>
   		<scope>compile</scope>
     </dependency>
     <dependency>
     	<groupId>ws.softlabs.lib</groupId>
     	<artifactId>kino-model</artifactId>
-    	<version>0.0.3</version>
+    	<version>0.0.4</version>
   		<scope>compile</scope>
     </dependency>    
     <dependency>

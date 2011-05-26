@@ -25,6 +25,7 @@ public class MockTheaterDAOImpl implements TheaterDAO {
 		return null;
 	}
 	public List<Theater> getList() {
+		// UNIMPLEMENTED IN MOCK-DAO
 		return theaters;
 	}
 	public boolean add(Theater theater) {
@@ -59,7 +60,7 @@ public class MockTheaterDAOImpl implements TheaterDAO {
 	}
 	@Override
 	public List<String> getRawList() {
-		// TODO Auto-generated method stub
+		// UNIMPLEMENTED IN MOCK-DAO
 		return null;
 	}
 	

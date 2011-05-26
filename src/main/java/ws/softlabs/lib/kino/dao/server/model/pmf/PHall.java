@@ -112,7 +112,5 @@ public class PHall implements StoreCallback {
 		return this.getName() + "(" + this.getKey() + ":" + theaterKey + ")";
 	}
 	public void jdoPreStore() {
-		//if (name == null) name = "";
-		//if (html == null) html = "";
 	}
 }

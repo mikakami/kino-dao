@@ -145,7 +145,6 @@ public class PMFTheaterDAOImpl implements TheaterDAO {
 			if(ptheaters != null && !ptheaters.isEmpty()) {
 				result = new ArrayList<String>();
 				for (PTheater pt : ptheaters)
-					//result.add(pt.asTheater().toString());
 					result.add(pt.toString());
 				return result;
 			} else {

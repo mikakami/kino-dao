@@ -30,6 +30,7 @@ public class MockShowDAOImpl implements ShowDAO {
 		return null;
 	}
 	public List<Show> getList() {
+		// UNIMPLEMENTED IN MOCK-DAO
 		return shows;
 	}
 	public List<Show> getList(Hall hall, Date day) {
@@ -72,25 +73,25 @@ public class MockShowDAOImpl implements ShowDAO {
 		return ( shows.remove(CollectionUtils.getIndexOf(shows.toArray(), show)) != null );
 	}
 	public List<Show> getListSince(Date date) {
-		// TODO Auto-generated method stub
+		// UNIMPLEMENTED IN MOCK-DAO
 		return null;
 	}
 	public List<Show> getListSince(Hall hall, Date date) {
-		// TODO Auto-generated method stub
+		// UNIMPLEMENTED IN MOCK-DAO
 		return null;
 	}
 	public List<String> getDaysList(Theater theater, Date date) {
-		// TODO Auto-generated method stub
+		// UNIMPLEMENTED IN MOCK-DAO
 		return null;
 	}
 	@Override
 	public List<String> getRawList() {
-		// TODO Auto-generated method stub
+		// UNIMPLEMENTED IN MOCK-DAO
 		return null;
 	}
 	@Override
 	public List<String> getRawDayList() {
-		// TODO Auto-generated method stub
+		// UNIMPLEMENTED IN MOCK-DAO
 		return null;
 	}
 }

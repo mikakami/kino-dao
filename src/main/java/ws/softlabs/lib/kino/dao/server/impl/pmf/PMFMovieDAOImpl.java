@@ -132,7 +132,6 @@ public class PMFMovieDAOImpl implements MovieDAO {
 			if(pmovies != null && !pmovies.isEmpty()) {
 				result = new ArrayList<String>();
 				for (PMovie m : pmovies)
-//					result.add(m.asMovie().toString());
 					result.add(m.toString());
 				return result;
 			} else {

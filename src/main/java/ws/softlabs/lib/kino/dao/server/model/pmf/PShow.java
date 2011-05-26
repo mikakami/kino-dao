@@ -165,22 +165,4 @@ public class PShow {
 		} else
 			return new Show(id, hall, movie, date, null);
 	}
-
-/*	public Hall getHall() {
-		PHall phall = PMFDAOUtils.getPHall(hallKey);
-		if (phall == null) 
-			return null;
-		return phall.asHall();
-	}
-	public void setHall(Hall hall) {
-		//this.hall = hall;		
-	}
-	public Movie getMovie() {
-		return null;
-	}
-	public void setMovie(Movie movie) {
-		//this.movie = movie;
-	}
-/**/
-
 }

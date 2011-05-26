@@ -180,52 +180,47 @@ public class MockModelDataService implements DataService {
 	}
 	@Override
 	public List<String> getRawTheaterList() {
-		// TODO Auto-generated method stub
+		// NOT IMPLEMENTED FOR MOCK-DAO
 		return null;
 	}
 	@Override
 	public List<String> getRawHallList() {
-		// TODO Auto-generated method stub
+		// NOT IMPLEMENTED FOR MOCK-DAO
 		return null;
 	}
 	@Override
 	public List<String> getRawDayList() {
-		// TODO Auto-generated method stub
+		// NOT IMPLEMENTED FOR MOCK-DAO
 		return null;
 	}
 	@Override
 	public List<String> getRawMovieList() {
-		// TODO Auto-generated method stub
+		// NOT IMPLEMENTED FOR MOCK-DAO
 		return null;
 	}
 	@Override
 	public List<String> getRawShowList() {
-		// TODO Auto-generated method stub
+		// NOT IMPLEMENTED FOR MOCK-DAO
 		return null;
 	}
 	@Override
 	public void clearTheaters() {
-		// TODO Auto-generated method stub
-		
+		// NOT IMPLEMENTED FOR MOCK-DAO
 	}
 	@Override
 	public void clearHalls() {
-		// TODO Auto-generated method stub
-		
+		// NOT IMPLEMENTED FOR MOCK-DAO
 	}
 	@Override
 	public void clearShows() {
-		// TODO Auto-generated method stub
-		
+		// NOT IMPLEMENTED FOR MOCK-DAO
 	}
 	@Override
 	public void clearMovies() {
-		// TODO Auto-generated method stub
-		
+		// NOT IMPLEMENTED FOR MOCK-DAO
 	}
 	@Override
 	public void clearShows(Hall hall, Date date) {
-		// TODO Auto-generated method stub
-		
+		// NOT IMPLEMENTED FOR MOCK-DAO
 	}
 }

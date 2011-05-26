@@ -172,13 +172,8 @@ public class PMFHallDAOImpl implements HallDAO {
 			phalls = (List<PHall>)query.execute();
 			if(phalls != null && !phalls.isEmpty()) {
 				result = new ArrayList<String>();
-				for (PHall pt : phalls) {
-//					String s = pt.getTheaterKey() + " "; 
-//					s += pt.getKey().toString() + " - '";
-//					s += pt.getName() + "' - '" + pt.getHtml() + "'";
-//					result.add(s);
+				for (PHall pt : phalls)
 					result.add(pt.toString());
-				}
 				return result;
 			} else {
 				return null;					

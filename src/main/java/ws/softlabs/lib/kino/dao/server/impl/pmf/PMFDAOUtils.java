@@ -116,11 +116,6 @@ public class PMFDAOUtils {
 	public static PHall getPHall(Hall hall) {
 		log.debug("ENTER (hall = " + hall + ")");
 		
-		//String hallName = new String(hall.getName());
-		//String hallHtml = new String(hall.getHtml());
-		
-		//log.debug("hallName = " + hallName);
-		//log.debug("hallHtml = " + hallHtml);
 		PTheater theater = null;
 			
 		if (hall != null)

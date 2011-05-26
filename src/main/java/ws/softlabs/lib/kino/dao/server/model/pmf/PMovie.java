@@ -66,7 +66,6 @@ public class PMovie {
 		return new Movie(this.key.getId(), this.getName(), this.getUrl());
 	}
 	public String toString() {
-		//return this.getName() + "(" + this.getKey().toString() + ")";
 		return this.getKey() + ": " + this.getName() + " (" + this.getUrl() + ")";
 	}
 }

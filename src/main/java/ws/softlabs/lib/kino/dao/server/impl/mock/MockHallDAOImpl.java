@@ -32,6 +32,7 @@ public class MockHallDAOImpl implements HallDAO {
 		return null;
 	}
 	public List<Hall> getList() {
+		// UNIMPLEMENTED IN MOCK-DAO
 		return halls;
 	}
 	public List<Hall> getList(Theater theater) {
@@ -74,7 +75,7 @@ public class MockHallDAOImpl implements HallDAO {
 	}
 	@Override
 	public List<String> getRawList() {
-		// TODO Auto-generated method stub
+		// UNIMPLEMENTED IN MOCK-DAO
 		return null;
 	}
 
